@@ -108,4 +108,9 @@ public class TaElement extends VBox {
 			
 		}
 	}
+	
+	void endEditMode() {
+		top_row.getChildren().remove(2);
+		top_row.getChildren().remove(0);
+	}
 }

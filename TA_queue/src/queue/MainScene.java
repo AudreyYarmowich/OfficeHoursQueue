@@ -3,10 +3,13 @@ package queue;
 import java.io.File;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -28,17 +31,23 @@ public class MainScene {
 	TextField join_queue_structure_textfield;
 	Label main_queue_label;
 	String raw_buzzcard_input = "";
+	HBox title_structure;
 	HBox tas_on_duty_structure;
+	VBox student_queue_structure;
 	
 	MainScene(){
 		VBox root = new VBox();
 		Scene scene = new Scene(root, Constants.application_width, Constants.application_height);
 		this.main_scene = scene;
+		
+		title_structure = new HBox(20);
+		title_structure.setAlignment(Pos.CENTER);
 		title = new Label(Main.getClassName() + Constants.main_title_text);
 		title.setTextAlignment(TextAlignment.CENTER);
 		title.getStyleClass().add("bigtitle");	
 		title.setMinHeight(this.main_scene.getHeight() * Constants.main_scene_title_size);
 		title.setMaxHeight(this.main_scene.getHeight() * Constants.main_scene_title_size);
+		title_structure.getChildren().add(title);
 		
 		tas_on_duty_structure = new HBox(20);
 		tas_on_duty_structure.setMinHeight(this.main_scene.getHeight() * Constants.tas_on_duty_structure_size);
@@ -84,11 +93,11 @@ public class MainScene {
 		space_holder2.setMinWidth(150);
 		
 		student_queue_label_structure.getChildren().addAll(space_holder, main_queue_label);
-		VBox student_queue_structure = new VBox(20);
+		student_queue_structure = new VBox(20);
 		student_queue_structure.setMaxWidth(400);
 		main_queue_structure.getChildren().addAll(student_queue_label_structure, student_queue_structure,space_holder2);
 		
-		root.getChildren().addAll(title, lineUnder(title), tas_on_duty_structure, lineUnder(tas_on_duty_structure),
+		root.getChildren().addAll(title_structure, lineUnder(title_structure), tas_on_duty_structure, lineUnder(tas_on_duty_structure),
 				join_queue_structure, lineUnder(join_queue_structure), space_holder, main_queue_structure);
 		root.setAlignment(Pos.CENTER);
 		root.setBackground(new Background(new BackgroundFill( Constants.background_color, new CornerRadii(.5), new Insets(0) )));
@@ -104,16 +113,16 @@ public class MainScene {
 						if (Main.tas_on_duty.contains(Main.student_map.get(Main.current_student).getName())) {
 							for(Node t: tas_on_duty_structure.getChildren()) {
 								if (t instanceof TaElement) {
-									Main.nextScene(true);
 									((TaElement) t).editMode();
 								}
 							}
 							for(Node t: student_queue_structure.getChildren()) {
 								if (t instanceof QueueElement) {
-									Main.nextScene(false);
 									((QueueElement) t).taEditMode();
 								}
 							}
+							Main.nextScene(true);
+							this.editMode();
 						} else {
 							Main.tas_on_duty.add(Main.student_map.get(Main.current_student).getName());
 							tas_on_duty_structure.getChildren().add(new TaElement(Main.student_map.get(Main.current_student).getName()));
@@ -122,10 +131,11 @@ public class MainScene {
 						if (Main.students_in_queue.contains(Main.student_map.get(Main.current_student).getName())) {
 							for(Node t: student_queue_structure.getChildren()) {
 								if (t instanceof QueueElement && ((QueueElement)t).name.equals(Main.student_map.get(Main.current_student).getName())) {
-									Main.nextScene(false);
 									((QueueElement) t).studentEditMode();
 								}
 							}
+							Main.nextScene(false);
+							this.editMode();
 						} else {
 							student_queue_structure.getChildren().add(new QueueElement(Main.student_map.get(Main.current_student).getName()));
 						}
@@ -136,6 +146,42 @@ public class MainScene {
 				}
 			}
 		});
+	}
+	
+	void editMode() {
+		Button exit_button = new Button("Exit Edit Mode");
+		Label space_holder = new Label();
+		space_holder.setMinWidth(exit_button.getWidth());
+		exit_button.setOnAction( new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("debug" + Main.mode);
+				if (Main.mode == ApplicationMode.TA) {
+					for(Node t: tas_on_duty_structure.getChildren()) {
+						if (t instanceof TaElement) {
+							((TaElement) t).endEditMode();
+						}
+					}
+					for(Node t: student_queue_structure.getChildren()) {
+						if (t instanceof QueueElement) {
+							((QueueElement) t).endEditMode();
+						}
+					}
+					Main.nextScene(false);
+				} else {
+					for(Node t: student_queue_structure.getChildren()) {
+						if (t instanceof QueueElement && ((QueueElement)t).name.equals(Main.student_map.get(Main.current_student).getName())) {
+							((QueueElement) t).endEditMode();
+						}
+					}
+					Main.nextScene(false);
+				}
+				((HBox)((Node)event.getSource()).getParent()).getChildren().remove((Node)event.getSource());	
+			}
+		});
+		
+		title_structure.getChildren().add(0,space_holder);
+		title_structure.getChildren().add(exit_button);
 	}
 	
 	Scene getMainScene() {return main_scene;}

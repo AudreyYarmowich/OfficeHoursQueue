@@ -56,7 +56,12 @@ public class QueueElement extends HBox {
 	void taEditMode() {
 		
 	}
+	
 	void studentEditMode() {
+		
+	}
+	
+	void endEditMode() {
 		
 	}
 }

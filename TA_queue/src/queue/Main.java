@@ -54,6 +54,7 @@ public class Main extends Application{
 	}
 	
 	public static void nextScene(boolean ta) {
+		System.out.println("before" + Main.mode);
 		if (mode == ApplicationMode.START_UP) {
 			mode = ApplicationMode.DISPLAY;
 			main_scene = new MainScene();
@@ -68,6 +69,7 @@ public class Main extends Application{
 		} else if ( mode == ApplicationMode.STUDENT || mode == ApplicationMode.TA) {
 			mode = ApplicationMode.DISPLAY;
 		}
+		System.out.println("after" + Main.mode);
 	}
 	
 	static File getRoster() {return roster;}
