@@ -19,12 +19,13 @@ public class Main extends Application{
 	protected static Main main;
 	
     static HashMap<Integer, Student> student_map; 
+    static List<String> students_in_queue;
+    static List<String> tas_on_duty;
 	
 	//Declare all other elements we will be using
 	private static String class_name;
 	static File roster;
 	static int current_student = 0; //This will be the Student ID of the student/TA who last swiped their buzzcard twice to enter and edit mode
-	static boolean is_ta = false;
 	static ApplicationMode mode = ApplicationMode.START_UP; //Starts in Startup mode to get window size, class name, and roster info
 	static int number_of_students_detected;
 	static int number_of_tas_detected;
@@ -33,6 +34,8 @@ public class Main extends Application{
     private static final char DEFAULT_QUOTE = '"';
 	
 	public static void main(String[] args) {
+		students_in_queue = new ArrayList<String>();
+		tas_on_duty = new ArrayList<String>();
 		System.out.println("Start");
 		launch(args);
 	}
@@ -50,7 +53,7 @@ public class Main extends Application{
 		Main.stage.show();
 	}
 	
-	public static void nextScene() {
+	public static void nextScene(boolean ta) {
 		if (mode == ApplicationMode.START_UP) {
 			mode = ApplicationMode.DISPLAY;
 			main_scene = new MainScene();
@@ -58,9 +61,9 @@ public class Main extends Application{
 			stage.setTitle(class_name + " Queue System");
 			stage.setFullScreen(true);
 			stage.show();
-		} else if ( mode == ApplicationMode.DISPLAY && is_ta ) {
+		} else if ( mode == ApplicationMode.DISPLAY && ta ) {
 			mode = ApplicationMode.TA;
-		} else if ( mode == ApplicationMode.DISPLAY && !is_ta ) {
+		} else if ( mode == ApplicationMode.DISPLAY && !ta ) {
 			mode = ApplicationMode.STUDENT;
 		} else if ( mode == ApplicationMode.STUDENT || mode == ApplicationMode.TA) {
 			mode = ApplicationMode.DISPLAY;
@@ -101,7 +104,6 @@ public class Main extends Application{
 		            }
 		        }
 		        scanner.close();
-				System.out.println(student_map.size());
 				return true;
 			} catch (FileNotFoundException e) {
 				roster = null;

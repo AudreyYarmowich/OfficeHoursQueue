@@ -16,6 +16,9 @@ final class Constants {
 	static String join_queue_structure_label_text = "To Join The Queue Swipe Your Buzzcard or Type In Your Name Below:";
 	static String main_queue_label_text = "Student Queue:";
 	
+	static String no_ta_picture_found = "TA_queue\\src\\queue\\images\\missing_ta_picture.png";
+	static String remove_icon = "TA_queue\\src\\queue\\images\\remove_icon.png";
+	
 	static int starting_application_width = 500;
 	static int starting_application_height = 500;
 	static int application_width = 1920;

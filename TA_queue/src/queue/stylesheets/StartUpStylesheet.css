@@ -6,6 +6,11 @@
     -fx-background-color: rgb(120, 144, 156);
 }
 
+.removebutton{
+    -fx-border-color: rgb(176, 190, 197);
+    -fx-background-color: rgb(176, 190, 197);
+}
+
 .text{
 	-fx-text-fill: rgb(55, 71, 79);
 }

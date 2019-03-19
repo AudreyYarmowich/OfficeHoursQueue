@@ -1,6 +1,8 @@
 package queue;
 
 import java.io.File;
+
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -26,6 +28,7 @@ public class MainScene {
 	TextField join_queue_structure_textfield;
 	Label main_queue_label;
 	String raw_buzzcard_input = "";
+	HBox tas_on_duty_structure;
 	
 	MainScene(){
 		VBox root = new VBox();
@@ -37,13 +40,13 @@ public class MainScene {
 		title.setMinHeight(this.main_scene.getHeight() * Constants.main_scene_title_size);
 		title.setMaxHeight(this.main_scene.getHeight() * Constants.main_scene_title_size);
 		
-		HBox tas_on_duty_structure = new HBox(20);
+		tas_on_duty_structure = new HBox(20);
 		tas_on_duty_structure.setMinHeight(this.main_scene.getHeight() * Constants.tas_on_duty_structure_size);
 		tas_on_duty_structure.setMaxHeight(this.main_scene.getHeight() * Constants.tas_on_duty_structure_size);
 		tas_on_duty_structure.setAlignment(Pos.CENTER);
 		tas_on_duty_label = new Label(Constants.tas_on_duty_label_text);
 		tas_on_duty_label.getStyleClass().add("title");
-		tas_on_duty_structure.getChildren().addAll(tas_on_duty_label);
+		tas_on_duty_structure.getChildren().add(tas_on_duty_label);
 		
 		
 		VBox join_queue_structure = new VBox(20);
@@ -89,7 +92,7 @@ public class MainScene {
 				join_queue_structure, lineUnder(join_queue_structure), space_holder, main_queue_structure);
 		root.setAlignment(Pos.CENTER);
 		root.setBackground(new Background(new BackgroundFill( Constants.background_color, new CornerRadii(.5), new Insets(0) )));
-		File f = new File("TA_queue\\src\\\\queue\\\\stylesheets\\\\StartUpStylesheet.css");
+		File f = new File("TA_queue\\src\\queue\\stylesheets\\StartUpStylesheet.css");
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 		
@@ -98,12 +101,35 @@ public class MainScene {
 				if (join_queue_structure_textfield.getText().equals("")) {
 					Main.current_student = Integer.valueOf(raw_buzzcard_input.substring(6, 15));
 					if (Main.student_map.get(Main.current_student) instanceof TA) {
-						tas_on_duty_structure.getChildren().add(new TaElement(Main.student_map.get(Main.current_student).getName()));
+						if (Main.tas_on_duty.contains(Main.student_map.get(Main.current_student).getName())) {
+							for(Node t: tas_on_duty_structure.getChildren()) {
+								if (t instanceof TaElement) {
+									Main.nextScene(true);
+									((TaElement) t).editMode();
+								}
+							}
+							for(Node t: student_queue_structure.getChildren()) {
+								if (t instanceof QueueElement) {
+									Main.nextScene(false);
+									((QueueElement) t).taEditMode();
+								}
+							}
+						} else {
+							Main.tas_on_duty.add(Main.student_map.get(Main.current_student).getName());
+							tas_on_duty_structure.getChildren().add(new TaElement(Main.student_map.get(Main.current_student).getName()));
+						}
 					} else {
-						student_queue_structure.getChildren().add(new QueueElement(Main.student_map.get(Main.current_student).getName()));
+						if (Main.students_in_queue.contains(Main.student_map.get(Main.current_student).getName())) {
+							for(Node t: student_queue_structure.getChildren()) {
+								if (t instanceof QueueElement && ((QueueElement)t).name.equals(Main.student_map.get(Main.current_student).getName())) {
+									Main.nextScene(false);
+									((QueueElement) t).studentEditMode();
+								}
+							}
+						} else {
+							student_queue_structure.getChildren().add(new QueueElement(Main.student_map.get(Main.current_student).getName()));
+						}
 					}
-					
-					System.out.println(Main.student_map.get(Main.current_student).getName());
 				} else {
 					student_queue_structure.getChildren().add(new QueueElement(join_queue_structure_textfield.getText()));
 					join_queue_structure_textfield.setText("");

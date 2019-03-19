@@ -100,7 +100,7 @@ public class StartUpScene {
 					if ( Main.getRoster() == null ) { throw new InvalidFileException(); }
 					if ( Main.number_of_students_detected == 0 ) {throw new Exception("Roster has no students or is not in the correct format");}
 					Main.setClassName( class_name.getText() );
-					Main.nextScene();
+					Main.nextScene(false);
 				}
 				catch ( Exception e ){
 					System.out.println(e.getMessage());
