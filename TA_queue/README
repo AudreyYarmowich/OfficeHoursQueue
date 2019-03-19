@@ -1,5 +1,6 @@
-To use download your class roster from Canvas,
-
-This file will be named xlsx.xlsx, please open it in excel and then export it as a .csv
-
-All TA pictures should be saved "Firstname Lastname.(png,jpj,jpeg)" example is given
+To use: 
+1. Go to the "GaTech Roster" page on Canvas,
+2. Click Export Roster
+3. This file will be named xlsx.xlsx, please open it in excel and then export it as a .csv
+4. All TA pictures should be saved "Firstname Lastname.(png,jpj,jpeg)" example is given
+5. Run the jar file
