@@ -18,6 +18,8 @@ final class Constants {
 	
 	static String no_ta_picture_found = "TA_queue\\src\\queue\\images\\missing_ta_picture.png";
 	static String remove_icon = "TA_queue\\src\\queue\\images\\remove_icon.png";
+	static String up_icon = "TA_queue\\src\\queue\\images\\up.png";
+	static String down_icon = "TA_queue\\src\\queue\\images\\down.png";
 	
 	static int starting_application_width = 500;
 	static int starting_application_height = 500;

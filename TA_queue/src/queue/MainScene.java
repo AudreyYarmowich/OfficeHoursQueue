@@ -34,6 +34,7 @@ public class MainScene {
 	HBox title_structure;
 	HBox tas_on_duty_structure;
 	VBox student_queue_structure;
+	Button exit_button;
 	
 	MainScene(){
 		VBox root = new VBox();
@@ -111,21 +112,29 @@ public class MainScene {
 					Main.current_student = Integer.valueOf(raw_buzzcard_input.substring(6, 15));
 					if (Main.student_map.get(Main.current_student) instanceof TA) {
 						if (Main.tas_on_duty.contains(Main.student_map.get(Main.current_student).getName())) {
-							for(Node t: tas_on_duty_structure.getChildren()) {
-								if (t instanceof TaElement) {
-									((TaElement) t).editMode();
+							if (Main.mode == ApplicationMode.DISPLAY) {
+								for(Node t: tas_on_duty_structure.getChildren()) {
+									if (t instanceof TaElement) {
+										((TaElement) t).editMode();
+									}
 								}
-							}
-							for(Node t: student_queue_structure.getChildren()) {
-								if (t instanceof QueueElement) {
-									((QueueElement) t).taEditMode();
+								for(Node t: student_queue_structure.getChildren()) {
+									if (t instanceof QueueElement) {
+										((QueueElement) t).taEditMode();
+									}
 								}
+								Main.nextScene(true);
+							} else if (Main.mode == ApplicationMode.TA) {
+								exit_button.fire();
 							}
-							Main.nextScene(true);
 							this.editMode();
 						} else {
 							Main.tas_on_duty.add(Main.student_map.get(Main.current_student).getName());
-							tas_on_duty_structure.getChildren().add(new TaElement(Main.student_map.get(Main.current_student).getName()));
+							TaElement t = new TaElement(Main.student_map.get(Main.current_student).getName());
+							tas_on_duty_structure.getChildren().add(t);
+							if (Main.mode == ApplicationMode.TA) {
+								t.editMode();
+							}
 						}
 					} else {
 						if (Main.students_in_queue.contains(Main.student_map.get(Main.current_student).getName())) {
@@ -138,6 +147,11 @@ public class MainScene {
 							this.editMode();
 						} else {
 							student_queue_structure.getChildren().add(new QueueElement(Main.student_map.get(Main.current_student).getName()));
+							if (Main.mode == ApplicationMode.TA) {
+								QueueElement.update_queue(student_queue_structure.getChildren());
+							} else if (Main.mode == ApplicationMode.STUDENT) {
+								QueueElement.s_update_queue(student_queue_structure.getChildren());
+							}
 						}
 					}
 				} else {
@@ -149,7 +163,7 @@ public class MainScene {
 	}
 	
 	void editMode() {
-		Button exit_button = new Button("Exit Edit Mode");
+		exit_button = new Button("Exit Edit Mode");
 		Label space_holder = new Label();
 		space_holder.setMinWidth(exit_button.getWidth());
 		exit_button.setOnAction( new EventHandler<ActionEvent>() {
@@ -176,7 +190,9 @@ public class MainScene {
 					}
 					Main.nextScene(false);
 				}
-				((HBox)((Node)event.getSource()).getParent()).getChildren().remove((Node)event.getSource());	
+				System.out.println(((HBox)((Node)event.getSource()).getParent()).getChildren().remove(0));
+				System.out.println(((HBox)((Node)event.getSource()).getParent()).getChildren().remove((Node)event.getSource()));	
+				
 			}
 		});
 		

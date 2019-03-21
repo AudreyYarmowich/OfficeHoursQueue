@@ -35,6 +35,7 @@ public class TaElement extends VBox {
 	ImageView picture;
 	HBox top_row;
 	String name;
+	boolean is_in_edit_mode = false;
 	
 	TaElement(String name){
 		super(10);
@@ -82,35 +83,41 @@ public class TaElement extends VBox {
 	}
 	
 	void editMode() {
-		Button remove_button = new Button();
-		try {
-			VBox right_side = new VBox();
-			remove_button.setGraphic(new ImageView( new Image(new FileInputStream(Constants.remove_icon))));
-			remove_button.setMinWidth(19);
-			remove_button.setMinHeight(19);
-			remove_button.getStyleClass().add("removebutton");
-			remove_button.setOnAction( new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					HBox ta_queue = ((HBox)((Node)event.getSource()).getParent().getParent().getParent().getParent());
-					TaElement curr = ((TaElement)((Node)event.getSource()).getParent().getParent().getParent());
-					Main.tas_on_duty.remove(curr.name);
-					ta_queue.getChildren().remove(curr);
-					System.out.println("remove ta");
-				}
-			});
-			Label place_holder = new Label("");
-			place_holder.setMinSize(19, 40);
-			right_side.getChildren().addAll(remove_button,place_holder);
-			top_row.getChildren().add(0, place_holder);
-			top_row.getChildren().add(right_side);	
-		} catch (FileNotFoundException e) {
-			
+		if (!is_in_edit_mode) {	
+			try {
+				is_in_edit_mode = true;
+				Button remove_button = new Button();
+				VBox right_side = new VBox();
+				remove_button.setGraphic(new ImageView( new Image(new FileInputStream(Constants.remove_icon))));
+				remove_button.setMinWidth(19);
+				remove_button.setMinHeight(19);
+				remove_button.getStyleClass().add("removebutton");
+				remove_button.setOnAction( new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						HBox ta_queue = ((HBox)((Node)event.getSource()).getParent().getParent().getParent().getParent());
+						TaElement curr = ((TaElement)((Node)event.getSource()).getParent().getParent().getParent());
+						Main.tas_on_duty.remove(curr.name);
+						ta_queue.getChildren().remove(curr);
+						System.out.println("remove ta");
+					}
+				});
+				Label place_holder = new Label("");
+				place_holder.setMinSize(19, 40);
+				right_side.getChildren().addAll(remove_button,place_holder);
+				top_row.getChildren().add(0, place_holder);
+				top_row.getChildren().add(right_side);	
+			} catch (FileNotFoundException e) {
+				
+			}
 		}
 	}
 	
 	void endEditMode() {
-		top_row.getChildren().remove(2);
-		top_row.getChildren().remove(0);
+		if(is_in_edit_mode) {
+			is_in_edit_mode = false;
+			top_row.getChildren().remove(2);
+			top_row.getChildren().remove(0);
+		}
 	}
 }
