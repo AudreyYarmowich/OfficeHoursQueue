@@ -40,6 +40,7 @@ public class QueueElement extends HBox {
 		name_label = new Label(name);
 		name_label.getStyleClass().add("title");
 		name_label.setMinWidth(365);
+		name_label.setMaxWidth(365);
 		name_label.setAlignment(Pos.CENTER);
 		name_label.setTextAlignment(TextAlignment.CENTER);
 		this.getChildren().addAll(name_label);
@@ -71,7 +72,8 @@ public class QueueElement extends HBox {
 		if (!is_in_edit_mode) {
 			try {
 				is_in_edit_mode = true;
-				double space_holder_width = 19;
+				double space_holder_width = 40;
+				boolean top = false;
 				Label space_holder = new Label();
 				Button up_button = new Button();
 				Button down_button = new Button();
@@ -125,12 +127,14 @@ public class QueueElement extends HBox {
 				});
 				
 				if (((VBox)this.getParent()).getChildren().indexOf(this) != 0) {
+					top = true;
 					this.getChildren().add(up_button);
-					space_holder_width = space_holder_width + up_button.getWidth() + 3;
 				}
 				if (((VBox)this.getParent()).getChildren().indexOf(this) != ((VBox)this.getParent()).getChildren().size() - 1) {
 					this.getChildren().add(down_button);
-					space_holder_width = space_holder_width + down_button.getWidth() + 3;
+					if (top) {
+						space_holder_width = 60;
+					}
 				}
 				this.getChildren().add(remove_button);
 				space_holder.setMinWidth(space_holder_width);
@@ -147,7 +151,6 @@ public class QueueElement extends HBox {
 				double space_holder_width = 19;
 				is_in_edit_mode = true;
 				Label space_holder = new Label();
-				space_holder.setMinWidth(19*2);
 				Button down_button = new Button();
 				Button remove_button = new Button();
 				down_button.setGraphic(new ImageView( new Image(new FileInputStream(Constants.down_icon))));

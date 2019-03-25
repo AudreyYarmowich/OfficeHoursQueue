@@ -110,7 +110,10 @@ public class MainScene {
 			if (key.getCode()==KeyCode.ENTER) {
 				if (join_queue_structure_textfield.getText().equals("")) {
 					Main.current_student = Integer.valueOf(raw_buzzcard_input.substring(6, 15));
-					if (Main.student_map.get(Main.current_student) instanceof TA) {
+					if (Main.student_map.get(Main.current_student) == null) {
+						Toast.makeText(Main.stage, "Student not found in roster, Please type name instead", 3500, 500, 500);
+					}
+					else if (Main.student_map.get(Main.current_student) instanceof TA) {
 						if (Main.tas_on_duty.contains(Main.student_map.get(Main.current_student).getName())) {
 							if (Main.mode == ApplicationMode.DISPLAY) {
 								for(Node t: tas_on_duty_structure.getChildren()) {
@@ -158,6 +161,7 @@ public class MainScene {
 					student_queue_structure.getChildren().add(new QueueElement(join_queue_structure_textfield.getText()));
 					join_queue_structure_textfield.setText("");
 				}
+				raw_buzzcard_input = "";
 			}
 		});
 	}
