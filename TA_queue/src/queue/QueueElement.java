@@ -72,7 +72,7 @@ public class QueueElement extends HBox {
 		if (!is_in_edit_mode) {
 			try {
 				is_in_edit_mode = true;
-				double space_holder_width = 40;
+				double space_holder_width = 60;
 				boolean top = false;
 				Label space_holder = new Label();
 				Button up_button = new Button();
@@ -125,16 +125,18 @@ public class QueueElement extends HBox {
 						update_queue(student_queue.getChildren());
 					}
 				});
-				
+				Label missing_button = new Label();
+				missing_button.setMinWidth(19);
 				if (((VBox)this.getParent()).getChildren().indexOf(this) != 0) {
 					top = true;
 					this.getChildren().add(up_button);
+				} else {
+					this.getChildren().add(missing_button);
 				}
 				if (((VBox)this.getParent()).getChildren().indexOf(this) != ((VBox)this.getParent()).getChildren().size() - 1) {
 					this.getChildren().add(down_button);
-					if (top) {
-						space_holder_width = 60;
-					}
+				} else {
+					this.getChildren().add(missing_button);
 				}
 				this.getChildren().add(remove_button);
 				space_holder.setMinWidth(space_holder_width);
