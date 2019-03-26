@@ -1,0 +1,70 @@
+.button{
+    -fx-text-fill: rgb(55, 71, 79);
+    -fx-border-color: rgb(38, 50, 56);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: rgb(120, 144, 156);
+}
+
+.removebutton{
+    -fx-border-color: rgb(176, 190, 197);
+    -fx-background-color: rgb(176, 190, 197);
+}
+
+.text{
+	-fx-text-fill: rgb(55, 71, 79);
+}
+
+.boldtext{
+	-fx-text-fill: rgb(55, 71, 79);
+	-fx-font-weight: bold;
+}
+
+
+.textfield{
+	-fx-text-fill: rgb(55, 71, 79);
+	-fx-border-color: rgb(38, 50, 56);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: rgb(176, 190, 197);
+}
+
+.maintextfield{
+	-fx-text-fill: rgb(55, 71, 79);
+	-fx-border-color: rgb(38, 50, 56);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+    -fx-font-size: 20px;
+    -fx-background-color: rgb(176, 190, 197);
+}
+
+.title{
+	-fx-text-fill: rgb(55, 71, 79);
+	-fx-font-weight: bold;
+	-fx-font-size: 18px;
+	-fx-text-align: center;
+}
+.bigtitle{
+	-fx-text-fill: rgb(55, 71, 79);
+	-fx-font-weight: bold;
+	-fx-font-size: 36px;
+	-fx-text-align: center;
+}
+
+.element{
+	-fx-text-fill: rgb(55, 71, 79);
+    -fx-border-color: rgb(38, 50, 56);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: rgb(176, 190, 197);
+}
+
+.confirm_button{
+	-fx-text-fill: rgb(55, 71, 79);
+    -fx-border-color: rgb(38, 50, 56);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+    -fx-background-color: rgb(176, 190, 197);
+    -fx-font-size: 18px;
+}
+

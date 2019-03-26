@@ -114,9 +114,9 @@ public class StartUpScene {
 		root.setAlignment(Pos.CENTER);
 		root.setBackground(new Background(new BackgroundFill( Constants.background_color, new CornerRadii(.5), new Insets(0) )));
 		Scene scene = new Scene(root, Constants.starting_application_width, Constants.starting_application_height);
-		File f = new File("TA_queue\\\\src\\\\queue\\\\stylesheets\\\\StartUpStylesheet.css");
+		File f = new File("StartUpStylesheet.css");
 		scene.getStylesheets().clear();
-		scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+		scene.getStylesheets().add("file:/" + f.getAbsolutePath().replace("\\", "/"));
 		this.start_up_scene = scene;
 	}
 	
