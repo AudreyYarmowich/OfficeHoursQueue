@@ -44,7 +44,7 @@ public class Main extends Application{
 	public void start(Stage new_stage) throws Exception {
 		main = this;
 		Main.stage = new_stage;
-		File f = new File("TA_queue\\src\\queue\\images\\flavicon.png");
+		File f = new File("images\\flavicon.png");
 		flavicon = new Image(f.toURI().toString());
 		Main.stage.getIcons().add(flavicon);
 		start_up_scene = new StartUpScene(Main.stage);

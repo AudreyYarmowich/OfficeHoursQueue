@@ -42,13 +42,13 @@ public class TaElement extends VBox {
 		this.name = name;
 		FileInputStream inputstream = null;
 		try {
-			inputstream = new FileInputStream("TA_queue\\src\\queue\\images\\ta_pictures\\" + name +".png");
+			inputstream = new FileInputStream("images\\ta_pictures\\" + name +".png");
 		} catch (FileNotFoundException a) {
 			try {
-				inputstream = new FileInputStream("TA_queue\\src\\queue\\images\\ta_pictures\\" + name +".jpg");
+				inputstream = new FileInputStream("images\\ta_pictures\\" + name +".jpg");
 			} catch (FileNotFoundException b) {
 				try {
-					inputstream = new FileInputStream("TA_queue\\src\\queue\\images\\ta_pictures\\" + name +".jpeg");
+					inputstream = new FileInputStream("images\\ta_pictures\\" + name +".jpeg");
 				} catch (FileNotFoundException c) {
 					try {
 						inputstream = new FileInputStream(Constants.no_ta_picture_found);

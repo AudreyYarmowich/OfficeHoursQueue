@@ -104,7 +104,7 @@ public class MainScene {
 		root.setBackground(new Background(new BackgroundFill( Constants.background_color, new CornerRadii(.5), new Insets(0) )));
 		File f = new File("StartUpStylesheet.css");
 		scene.getStylesheets().clear();
-		scene.getStylesheets().add("file://" + f.getAbsolutePath().replace("\\", "/"));
+		scene.getStylesheets().add("file:/" + f.getAbsolutePath().replace("\\", "/"));
 		
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 			if (key.getCode()==KeyCode.ENTER) {
@@ -211,15 +211,17 @@ public class MainScene {
 	}
 	
 	void popQueue() {
-		 student_queue_structure.getChildren().remove(0);
-		 for(Node t: student_queue_structure.getChildren()) {
-			if (t instanceof QueueElement) {
-				((QueueElement) t).endEditMode();
-			}
-		}
-		 for(Node t: student_queue_structure.getChildren()) {
-			if (t instanceof QueueElement) {
+		if (student_queue_structure.getChildren().size() > 0 ) {
+			student_queue_structure.getChildren().remove(0);
+			for(Node t: student_queue_structure.getChildren()) {
+				if (t instanceof QueueElement) {
+					((QueueElement) t).endEditMode();
+				}
+			}	
+			for(Node t: student_queue_structure.getChildren()) {
+				if (t instanceof QueueElement) {
 				((QueueElement) t).taEditMode();
+				}
 			}
 		}
 	}
